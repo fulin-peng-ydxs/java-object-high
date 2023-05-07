@@ -1,4 +1,4 @@
-package messagedigest;
+package security.algorithm.messagedigest;
 
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 

@@ -1,4 +1,4 @@
-package shift;
+package security.algorithm.shift;
 
 
 

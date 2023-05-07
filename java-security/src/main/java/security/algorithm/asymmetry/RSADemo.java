@@ -1,9 +1,8 @@
-package asymmetry;
+package security.algorithm.asymmetry;
 
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
 import java.security.*;
 import java.util.HashMap;
 import java.util.Map;

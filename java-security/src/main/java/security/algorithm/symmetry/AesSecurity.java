@@ -1,4 +1,4 @@
-package symmetry;
+package security.algorithm.symmetry;
 
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 

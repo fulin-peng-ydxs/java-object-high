@@ -1,7 +1,6 @@
-package signature;
+package security.signature;
 
-import asymmetry.RSADemo;
-import com.sun.org.apache.bcel.internal.generic.NEW;
+import security.algorithm.asymmetry.RSADemo;
 
 import java.security.*;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package dynamic;
+package jdk.demo2;
 
 public class Client {
 

@@ -1,4 +1,4 @@
-package staticproxy;
+package statics;
 
 
 //½Ó¿Ú

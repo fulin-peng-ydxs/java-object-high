@@ -1,4 +1,4 @@
-package staticproxy;
+package statics;
 
 //代理对象,静态代理
 public class TeacherDaoProxy implements ITeacherDao{

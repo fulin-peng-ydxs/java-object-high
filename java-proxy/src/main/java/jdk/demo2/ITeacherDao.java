@@ -1,4 +1,4 @@
-package dynamic;
+package jdk.demo2;
 
 //½Ó¿Ú
 public interface ITeacherDao {

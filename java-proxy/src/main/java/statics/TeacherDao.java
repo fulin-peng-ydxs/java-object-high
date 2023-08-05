@@ -1,4 +1,4 @@
-package staticproxy;
+package statics;
 
 public class TeacherDao implements ITeacherDao {
 

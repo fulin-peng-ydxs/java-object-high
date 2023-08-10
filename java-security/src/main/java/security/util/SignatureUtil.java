@@ -48,16 +48,12 @@ public class SignatureUtil {
      * @author pengfulin
     */
     public static Map<String,String> getSM3Signature(String appKey,String requestId,String userToken,String appSecret) {
-        if (requestId!=null)
-            requestId = null;
-        if (userToken!=null)
-            userToken = null;
         String timestamp = Long.toString( System.currentTimeMillis() / 1000L);
         String signature = toSM3(String.format("%s%s%s%s%s", appKey,timestamp,requestId,userToken,appSecret));
         Map<String,String> map = new HashMap<>();
         map.put("timestamp",timestamp);
         map.put("signature",signature);
-        map.put("appkey",appKey);
+        map.put("appKey",appKey);
         return map;
     }
 

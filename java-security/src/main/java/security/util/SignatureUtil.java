@@ -55,7 +55,7 @@ public class SignatureUtil {
         String timestamp = Long.toString( System.currentTimeMillis() / 1000L);
         String signature = toSM3(String.format("%s%s%s%s%s", appKey,timestamp,requestId,userToken,appSecret));
         Map<String,String> map = new HashMap<>();
-        map.put("   timestamp",timestamp);
+        map.put("timestamp",timestamp);
         map.put("signature",signature);
         map.put("appkey",appKey);
         return map;

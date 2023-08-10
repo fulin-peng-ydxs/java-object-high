@@ -4,23 +4,48 @@ import org.bouncycastle.crypto.digests.SM3Digest;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**常见签名算法工具
  * 2023/8/10-22:32
  * @author pengfulin
 */
-public class SignatureUtil {
+public class HashSignatureUtil {
 
-    /**签名生成:sha256算法
+    public enum SignatureHash {
+        SHA_256,
+        MD5,
+        SM3
+    }
+
+    /**生成签名：通用方式
+     * 2023/8/10-23:45
+     * @author pengfulin
+    */
+    public static String doGetCommonSignature(List<String> signatureData,String signatureTemplate,SignatureHash signatureHash) throws Exception{
+        String signatureSource = String.format(signatureTemplate, signatureData);
+        String signatureResult=null;
+        if(signatureHash==SignatureHash.SHA_256){
+            signatureResult=toSHA256(signatureSource);
+        }else if(signatureHash==SignatureHash.SM3){
+            signatureResult=toSM3(signatureSource);
+        }else{
+            return null;
+        }
+        return signatureResult;
+    }
+
+
+    /**签名生成:通用sha256算法
      * 2023/6/25 0025-11:57
      * @author pengfulin
      */
-    public static Map<String,String> getSha256Signature(String token) throws Exception{
+    public static Map<String,String> doGetSimpleSha256Signature(String token) throws Exception{
         long now = System.currentTimeMillis();
         String timestamp = Long.toString(now / 1000L);  //时间戳
         String nonce = Long.toHexString(now) + "-" + Long.toHexString((long) Math.floor(Math.random() * 0xFFFFFF));  //签名盐
-        String signature = SignatureUtil.toSHA256(timestamp + token + nonce + timestamp);
+        String signature = toSHA256(timestamp + token + nonce + timestamp);
         Map<String,String> map = new HashMap<>();
         map.put("timestamp",timestamp);
         map.put("signature",signature);
@@ -43,17 +68,19 @@ public class SignatureUtil {
 
 
 
-    /**签名生成:sm3算法
+    /**签名生成:通用sm3算法
      * 2023/6/25 0025-15:06
      * @author pengfulin
     */
-    public static Map<String,String> getSM3Signature(String appKey,String requestId,String userToken,String appSecret) {
-        String timestamp = Long.toString( System.currentTimeMillis() / 1000L);
-        String signature = toSM3(String.format("%s%s%s%s%s", appKey,timestamp,requestId,userToken,appSecret));
+    public static Map<String,String> goGetSimpleSM3Signature(String appSecret) {
+        long now = System.currentTimeMillis();
+        String timestamp = Long.toString( now / 1000L);
+        String nonce = Long.toHexString(now) + "-" + Long.toHexString((long) Math.floor(Math.random() * 0xFFFFFF));  //签名盐
+        String signature = toSM3(String.format("%s%s%s%s",timestamp,nonce,appSecret,timestamp));
         Map<String,String> map = new HashMap<>();
         map.put("timestamp",timestamp);
+        map.put("nonce",nonce);
         map.put("signature",signature);
-        map.put("appKey",appKey);
         return map;
     }
 

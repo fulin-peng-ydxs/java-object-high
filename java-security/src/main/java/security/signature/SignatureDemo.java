@@ -1,7 +1,6 @@
 package security.signature;
 
-import security.algorithm.asymmetry.RSADemo;
-
+import security.algorithm.noequals.RSADemo;
 import java.security.*;
 import java.util.Map;
 

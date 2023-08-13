@@ -13,7 +13,8 @@
   <version>1.0-SNAPSHOT</version>
 
   <dependencies>
-    <!--sm3摘要算法-->
+
+    <!--扩展密码学依赖：除java内置，还有其他算法及工具等-->
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk15on</artifactId>

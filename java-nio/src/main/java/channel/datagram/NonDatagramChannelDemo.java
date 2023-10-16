@@ -1,4 +1,4 @@
-package socket;
+package channel.datagram;
 
 import org.junit.Test;
 import java.io.IOException;

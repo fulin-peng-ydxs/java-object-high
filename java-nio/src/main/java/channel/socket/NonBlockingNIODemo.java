@@ -1,4 +1,4 @@
-package socket;
+package channel.socket;
 
 import org.junit.Test;
 

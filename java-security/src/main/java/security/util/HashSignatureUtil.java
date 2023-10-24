@@ -23,13 +23,13 @@ public class HashSignatureUtil {
      * 2023/8/10-23:45
      * @author pengfulin
     */
-    public static String doGetCommonSignature(List<String> signatureData,String signatureTemplate,SignatureHash signatureHash) throws Exception{
+    public static Map<String,String> doGetCommonSignature(List<String> signatureData,String signatureTemplate,SignatureHash signatureHash) throws Exception{
         String signatureSource = String.format(signatureTemplate, signatureData);
-        String signatureResult=null;
+        Map<String,String> signatureResult=null;
         if(signatureHash==SignatureHash.SHA_256){
-            signatureResult=toSHA256(signatureSource);
+            signatureResult=doGetSimpleSha256Signature(signatureSource);
         }else if(signatureHash==SignatureHash.SM3){
-            signatureResult=toSM3(signatureSource);
+            signatureResult=goGetSimpleSM3Signature(signatureSource);
         }else{
             return null;
         }

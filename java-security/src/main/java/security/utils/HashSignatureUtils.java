@@ -1,4 +1,4 @@
-package security.util;
+package security.utils;
 
 import org.bouncycastle.crypto.digests.SM3Digest;
 import java.nio.charset.StandardCharsets;
@@ -11,7 +11,7 @@ import java.util.Map;
  * 2023/8/10-22:32
  * @author pengfulin
 */
-public class HashSignatureUtil {
+public class HashSignatureUtils {
 
     public enum SignatureHash {
         SHA_256,

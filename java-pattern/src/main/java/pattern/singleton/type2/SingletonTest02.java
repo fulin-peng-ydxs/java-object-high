@@ -13,14 +13,14 @@ public class SingletonTest02 {
 
 }
 
-//饿汉式(静态变量)
+//饿汉式(静态代码块)
 class Singleton {
 	//1. 构造器私有化, 外部能new
 	private Singleton() {
 		
 	}
 	//2.本类内部创建对象实例
-	private  static Singleton instance;
+	private  static final Singleton instance;
 	
 	static { // 在静态代码块中，创建单例对象
 		instance = new Singleton();

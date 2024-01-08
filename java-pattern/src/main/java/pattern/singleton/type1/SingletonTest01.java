@@ -13,11 +13,11 @@ public class SingletonTest01 {
 
 }
 
-//饿汉式(静态变量)
+//饿汉式(静态常量)
 
 class Singleton {
 	
-	//1. 构造器私有化, 外部能new
+	//1. 构造器私有化, 外部不能new
 	private Singleton() {
 		
 	}

@@ -3,6 +3,7 @@ package security.utils;
 import org.bouncycastle.crypto.digests.SM3Digest;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,12 +59,7 @@ public class HashSignatureUtils {
      * @author pengfulin
     */
     public static String toSHA256(String str) throws Exception {
-        MessageDigest messageDigest;
-        String encodeStr = "";
-        messageDigest = MessageDigest.getInstance("SHA-256");
-        messageDigest.update(str.getBytes(StandardCharsets.UTF_8));
-        encodeStr = bytesToHex(messageDigest.digest());
-        return encodeStr;
+        return toCommonAlgorithm(str,"SHA-256");
     }
 
 
@@ -95,6 +91,29 @@ public class HashSignatureUtils {
         sm3.update(psw, 0, psw.length);
         sm3.doFinal(md, 0);
         return bytesToHex(md);
+    }
+
+    /**
+     * 生成md5算法hash
+     * 2024/1/9 0009 11:15
+     * @author fulin-peng
+     */
+    public static String toMd5(String str) throws Exception {
+        return toCommonAlgorithm(str,"MD5");
+    }
+
+    /**
+     * 生成通用算法hash
+     * 2024/1/9 0009 11:16
+     * @author fulin-peng
+     */
+    public static String toCommonAlgorithm(String str,String algorithm) throws Exception {
+        MessageDigest messageDigest;
+        String encodeStr = "";
+        messageDigest = MessageDigest.getInstance(algorithm);
+        messageDigest.update(str.getBytes(StandardCharsets.UTF_8));
+        encodeStr = bytesToHex(messageDigest.digest());
+        return encodeStr;
     }
 
 

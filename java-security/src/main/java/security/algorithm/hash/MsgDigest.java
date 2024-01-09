@@ -11,7 +11,7 @@ import java.security.NoSuchAlgorithmException;
  * @description: 消息摘要算法演示
  * @date 2021/10/23 11:40
  */
-public class MsgDigestDemo {
+public class MsgDigest {
 
     public static void main(String[] args) throws NoSuchAlgorithmException {
         //原文

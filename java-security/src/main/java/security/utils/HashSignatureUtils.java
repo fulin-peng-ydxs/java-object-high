@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**常见签名算法工具
+/**hash签名工具
  * 2023/8/10-22:32
  * @author pengfulin
 */
@@ -29,7 +29,7 @@ public class HashSignatureUtils {
         if(signatureHash==SignatureHash.SHA_256){
             signatureResult=doGetSimpleSha256Signature(signatureSource);
         }else if(signatureHash==SignatureHash.SM3){
-            signatureResult=goGetSimpleSM3Signature(signatureSource);
+            signatureResult=doGetSimpleSM3Signature(signatureSource);
         }else{
             return null;
         }
@@ -53,7 +53,7 @@ public class HashSignatureUtils {
         return map;
     }
 
-    /**生成sha256算法签名
+    /**生成sha256算法hash
      * 2023/8/10-22:39
      * @author pengfulin
     */
@@ -62,7 +62,7 @@ public class HashSignatureUtils {
         String encodeStr = "";
         messageDigest = MessageDigest.getInstance("SHA-256");
         messageDigest.update(str.getBytes(StandardCharsets.UTF_8));
-        encodeStr = byte2Hex(messageDigest.digest());
+        encodeStr = bytesToHex(messageDigest.digest());
         return encodeStr;
     }
 
@@ -72,7 +72,7 @@ public class HashSignatureUtils {
      * 2023/6/25 0025-15:06
      * @author pengfulin
     */
-    public static Map<String,String> goGetSimpleSM3Signature(String appSecret) {
+    public static Map<String,String> doGetSimpleSM3Signature(String appSecret) {
         long now = System.currentTimeMillis();
         String timestamp = Long.toString( now / 1000L);
         String nonce = Long.toHexString(now) + "-" + Long.toHexString((long) Math.floor(Math.random() * 0xFFFFFF));  //签名盐
@@ -84,7 +84,7 @@ public class HashSignatureUtils {
         return map;
     }
 
-    /**生成sm3算法签名
+    /**生成sm3算法hash
      * 2023/8/10-22:40
      * @author pengfulin
     */
@@ -94,7 +94,7 @@ public class HashSignatureUtils {
         byte[] psw = str.getBytes(StandardCharsets.UTF_8);
         sm3.update(psw, 0, psw.length);
         sm3.doFinal(md, 0);
-        return byte2Hex(md);
+        return bytesToHex(md);
     }
 
 
@@ -102,7 +102,7 @@ public class HashSignatureUtils {
      * 2023/8/10-22:41
      * @author pengfulin
     */
-    private static String byte2Hex(byte[] bytes) {
+    private static String bytesToHex(byte[] bytes) {
         StringBuilder result = new StringBuilder();
         String temp;
         for (byte aByte : bytes) {

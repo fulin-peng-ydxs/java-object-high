@@ -13,14 +13,14 @@ import java.util.Map;
  * @description: RSA非对称加密算法演示
  * @date 2021/10/23 12:23
  */
-public class RSADemo {
+public class RSASecurity {
 
     public static void main(String[] args) throws Exception {
 
         //原文
         String data="天行健，君子以自强不息";
         //加密算法
-        String algorithm = "RSA";
+        String algorithm = "RSASecurity";
         //获取密钥
         Map<String, Object> keys = getKey(algorithm);
         String aPrivate = (String) keys.get("private");

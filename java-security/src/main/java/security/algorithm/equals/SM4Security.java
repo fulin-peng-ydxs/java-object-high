@@ -14,7 +14,7 @@ import java.security.Security;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-public class SM4Demo {
+public class SM4Security {
 
     public static void main(String[] args) throws Exception {
         Security.addProvider(new BouncyCastleProvider());

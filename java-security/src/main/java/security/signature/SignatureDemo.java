@@ -1,6 +1,7 @@
 package security.signature;
 
-import security.algorithm.noequals.RSADemo;
+import security.algorithm.noequals.RSASecurity;
+
 import java.security.*;
 import java.util.Map;
 
@@ -14,15 +15,15 @@ public class SignatureDemo {
 
 
     public static void main(String[] args) throws Exception {
-        String algorithm = "RSA";
+        String algorithm = "RSASecurity";
         String data="地势坤，君子以厚德载物";
-        Map<String, Object> keys = RSADemo.getKey(algorithm);
+        Map<String, Object> keys = RSASecurity.getKey(algorithm);
 
         //生成签名：发送方
          //创建签名对象 : 签名算法由信息摘要算法和非对称加密算法构成
         Signature signature = Signature.getInstance("sha256withrsa");
          //初始化签名:传入私钥
-//        Map<String, Object> replaceKey = RSADemo.getKey(algorithm);
+//        Map<String, Object> replaceKey = RSASecurity.getKey(algorithm);
 //        keys.put("privateKey",replaceKey.get("privateKey")); //非法发送方
         signature.initSign((PrivateKey) keys.get("privateKey"));
          //传入原文：生成信息摘要

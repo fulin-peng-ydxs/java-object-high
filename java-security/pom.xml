@@ -14,12 +14,15 @@
 
   <dependencies>
 
-    <!--扩展密码学依赖：除java内置，还有其他算法及工具等-->
+    <!--加密依赖库：支持常见它提供了Java加密的实现和支持。这个库包含了许多加密算法和安全功能的实现，
+    比如对称加密、非对称加密、数字签名、消息摘要算法等。它支持常见的加密标准和协议，如AES、RSASecurity、DSA、ECDSA、SHA等。
+    开发人员可以使用这个库来实现数据加密、数字签名、安全通信等安全相关的功能-->
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk15on</artifactId>
       <version>1.66</version>
     </dependency>
+
   </dependencies>
 
 </project>

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+
 <!--监测配置文件是否有修改的时间间隔:60秒-->
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
-    <!--log日志目录-->
+
+    <!--log日志输出路径-->
     <property name="logging.path" value="logs/cloud"/>
+
     <contextName>z7-spring-cloud</contextName>
 
     <!-- 控制台日志 -->
@@ -71,4 +74,5 @@
         <appender-ref ref="fileInfoLog"/>
         <appender-ref ref="fileErrorLog"/>
     </root>
+
 </configuration>

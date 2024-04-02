@@ -24,35 +24,49 @@ public class HashSignatureUtils {
      * 2023/8/10-23:45
      * @author pengfulin
     */
-    public static Map<String,String> doGetCommonSignature(List<String> signatureData,String signatureTemplate,SignatureHash signatureHash) throws Exception{
-        String signatureSource = String.format(signatureTemplate, signatureData);
-        Map<String,String> signatureResult=null;
+    public static Map<String,String> doGetCommonSignature(List<String> tokenData,String tokenTemplate,SignatureHash signatureHash) throws Exception{
+        String token = String.format(tokenTemplate, tokenData);
+        return doGetSimpleSignature(token,signatureHash);
+    }
+
+    /**
+     * 生成签名：通用方式
+     * 2024/4/2 0002 11:49
+     * @author fulin-peng
+     */
+    public static Map<String,String> doGetSimpleSignature(String token,SignatureHash signatureHash) throws Exception{
+        long now = System.currentTimeMillis();
+        String timestamp = Long.toString( now / 1000L);
+        String nonce = Long.toHexString(now) + "-"
+                   /*
+                *1.Math.random():Math.random()生成一个大于或等于0.0且小于1.0的双精度浮点数（double）。
+                *2.Math.random() * 0xFFFFFF:这个表达式将Math.random()生成的随机数乘以0xFFFFFF（十六进制表示的16777215）。
+                   结果是一个大于或等于0.0且小于16777216.0（即0xFFFFFF + 1）的浮点数。这个乘法操作使得你可以得到一个在指定范围内（0到0xFFFFFF）的随机浮点数。
+                *3.(long) Math.floor(...):Math.floor(...)接受一个双精度浮点数（double），并返回小于或等于该数的最大整数。因为乘法结果是浮点数，使用Math.floor可以确保得到一个整数值。
+                   将Math.floor(...)的结果强制转换为long类型，是为了确保结果能作为长整型值处理，这对于接下来转换为十六进制字符串是必要的。请注意，这里的强制类型转换通常是多余的，
+                   因为Math.floor(...)的结果已经是long范围内的整数，但这样做确保了类型的明确性。
+                *4. Long.toHexString(...):Long.toHexString(long i)是一个静态方法，接受一个长整型（long）参数，并返回该参数的十六进制字符串表示。在这个例子中，它将步骤3中得到的长整型数转换
+                    为一个十六进制字符串。
+                **/
+                + Long.toHexString((long) Math.floor(Math.random() * 0xFFFFFF));  //签名盐
+        String signature =null;
+        String signatureSource=timestamp + token + nonce + timestamp;
         if(signatureHash==SignatureHash.SHA_256){
-            signatureResult=doGetSimpleSha256Signature(signatureSource);
+            signature=toSHA256(signatureSource);
         }else if(signatureHash==SignatureHash.SM3){
-            signatureResult=doGetSimpleSM3Signature(signatureSource);
-        }else{
+            signature=toSM3(signatureSource);
+        }else if (signatureHash==SignatureHash.MD5){
+            signature=toMd5(signatureSource);
+        }else {
             return null;
         }
-        return signatureResult;
-    }
-
-
-    /**签名生成:通用sha256算法
-     * 2023/6/25 0025-11:57
-     * @author pengfulin
-     */
-    public static Map<String,String> doGetSimpleSha256Signature(String token) throws Exception{
-        long now = System.currentTimeMillis();
-        String timestamp = Long.toString(now / 1000L);  //时间戳
-        String nonce = Long.toHexString(now) + "-" + Long.toHexString((long) Math.floor(Math.random() * 0xFFFFFF));  //签名盐
-        String signature = toSHA256(timestamp + token + nonce + timestamp);
         Map<String,String> map = new HashMap<>();
         map.put("timestamp",timestamp);
-        map.put("signature",signature);
         map.put("nonce",nonce);
+        map.put("signature",signature);
         return map;
     }
+
 
     /**生成sha256算法hash
      * 2023/8/10-22:39
@@ -60,37 +74,6 @@ public class HashSignatureUtils {
     */
     public static String toSHA256(String str) throws Exception {
         return toCommonAlgorithm(str,"SHA-256");
-    }
-
-
-
-    /**签名生成:通用sm3算法
-     * 2023/6/25 0025-15:06
-     * @author pengfulin
-    */
-    public static Map<String,String> doGetSimpleSM3Signature(String appSecret) {
-        long now = System.currentTimeMillis();
-        String timestamp = Long.toString( now / 1000L);
-        String nonce = Long.toHexString(now) + "-" + Long.toHexString((long) Math.floor(Math.random() * 0xFFFFFF));  //签名盐
-        String signature = toSM3(String.format("%s%s%s%s",timestamp,nonce,appSecret,timestamp));
-        Map<String,String> map = new HashMap<>();
-        map.put("timestamp",timestamp);
-        map.put("nonce",nonce);
-        map.put("signature",signature);
-        return map;
-    }
-
-    /**生成sm3算法hash
-     * 2023/8/10-22:40
-     * @author pengfulin
-    */
-    public static String toSM3(String str){
-        SM3Digest sm3 = new SM3Digest();
-        byte[] md = new byte[32];
-        byte[] psw = str.getBytes(StandardCharsets.UTF_8);
-        sm3.update(psw, 0, psw.length);
-        sm3.doFinal(md, 0);
-        return bytesToHex(md);
     }
 
     /**
@@ -117,11 +100,26 @@ public class HashSignatureUtils {
     }
 
 
+
+    /**生成sm3算法hash
+     * 2023/8/10-22:40
+     * @author pengfulin
+     */
+    public static String toSM3(String str){
+        SM3Digest sm3 = new SM3Digest();
+        byte[] md = new byte[32];
+        byte[] psw = str.getBytes(StandardCharsets.UTF_8);
+        sm3.update(psw, 0, psw.length);
+        sm3.doFinal(md, 0);
+        return bytesToHex(md);
+    }
+
+
     /**16进制转换
      * 2023/8/10-22:41
      * @author pengfulin
     */
-    private static String bytesToHex(byte[] bytes) {
+    public static String bytesToHex(byte[] bytes) {
         StringBuilder result = new StringBuilder();
         String temp;
         for (byte aByte : bytes) {
@@ -142,4 +140,26 @@ public class HashSignatureUtils {
         return sb.toString();
     }
 
+
+    /**
+     * 签名认证：通用方式
+     * 2024/4/2 0002 11:28
+     * @author fulin-peng
+     */
+    public static boolean validateSimpleSignature(Map<String,String> signatureData,String token,SignatureHash signatureHash) throws Exception{
+        String timestamp = signatureData.get("timestamp");
+        String nonce = signatureData.get("nonce");
+        String signature = signatureData.get("signature");
+        if(timestamp==null|| nonce==null||signature==null)
+            return false;
+        String signatureSource = timestamp + token + nonce + timestamp;
+        if(signatureHash==SignatureHash.SHA_256){
+            return signature.equals(toSHA256(signatureSource));
+        } else if (signatureHash==SignatureHash.SM3) {
+            return signature.equals(toSM3(signatureSource));
+        } else if(signatureHash==SignatureHash.MD5) {
+            return signature.equals(toMd5(signatureSource));
+        }
+        return false;
+    }
 }

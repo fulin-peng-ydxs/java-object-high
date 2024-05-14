@@ -8,7 +8,7 @@ import org.bouncycastle.crypto.paddings.PaddedBufferedBlockCipher;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.crypto.params.ParametersWithIV;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
+import security.utils.HashSignatureUtils;
 import java.security.SecureRandom;
 import java.security.Security;
 import java.nio.charset.StandardCharsets;
@@ -29,7 +29,7 @@ public class SM4Security {
         random.nextBytes(ivBytes);
 
         byte[] ciphertext = encryptSM4(keyBytes,ivBytes, plaintext.getBytes(StandardCharsets.UTF_8));
-        System.out.println("Ciphertext: " + bytesToHexString(ciphertext));
+        System.out.println("Ciphertext: " + HashSignatureUtils.bytesToHexString(ciphertext));
 
         byte[] decryptedBytes = decryptSM4(keyBytes, ivBytes,ciphertext);
         String decryptedText = new String(decryptedBytes, StandardCharsets.UTF_8);
@@ -44,6 +44,7 @@ public class SM4Security {
         BlockCipher engine = new SM4Engine(); //SM4 算法的块密码引擎
         //BufferedBlockCipher 是 Bouncy Castle 库中的一个封装类，用于实现块密码算法的加解密操作，并支持填充方式。
         // 在这里，我们创建了一个使用 CBC（Cipher Block Chaining）模式的 BufferedBlockCipher 实例，并将 SM4Engine 作为其底层的块密码引擎。
+        //CCB/PKCS7Padding
         BufferedBlockCipher cipher = new PaddedBufferedBlockCipher(new CBCBlockCipher(engine));
         //KeyParameter 是 Bouncy Castle 库中用于传递密钥参数的类。这里建了一个 KeyParameter 实例，将 keyBytes 作为密钥参数传入
         KeyParameter keyParam = new KeyParameter(keyBytes);
@@ -77,15 +78,4 @@ public class SM4Security {
         return Arrays.copyOf(output, len);
     }
 
-    /**二进制转16进制
-     * 2023/8/13-23:51
-     * @author pengfulin
-    */
-    public static String bytesToHexString(byte[] bytes) {
-        StringBuilder sb = new StringBuilder();
-        for (byte b : bytes) {
-            sb.append(String.format("%02X", b));
-        }
-        return sb.toString();
-    }
 }

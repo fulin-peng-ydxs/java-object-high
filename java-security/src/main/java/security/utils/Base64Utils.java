@@ -19,7 +19,6 @@ public class Base64Utils {
      * 解码
      * 2024/6/17 0017 16:50
      * @author fulin-peng
-     * @param
      */
     public static String decode(String encodedString){
         byte[] decodedBytes = Base64.getDecoder().decode(encodedString);

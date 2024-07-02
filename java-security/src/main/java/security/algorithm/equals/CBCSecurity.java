@@ -1,6 +1,6 @@
 package security.algorithm.equals;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import security.utils.Base64Utils;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -48,7 +48,7 @@ public class CBCSecurity {
         //进行加密
         byte[] bytes = cipher.doFinal(data.getBytes());
         //使用base64对加密数据进行翻译
-        return Base64.encode(bytes);
+        return Base64Utils.encode(bytes);
     }
 
 
@@ -69,7 +69,7 @@ public class CBCSecurity {
         //使用解密功能
         cipher.init(Cipher.DECRYPT_MODE,secretKeySpec,ivParameterSpec);
         //进行解密:需要先将可读性加密数据解释成原始加密数据
-        byte[] bytes = cipher.doFinal(Base64.decode(data.getBytes()));
+        byte[] bytes = cipher.doFinal(Base64Utils.decodeData(data));
         return new String(bytes);
     }
 

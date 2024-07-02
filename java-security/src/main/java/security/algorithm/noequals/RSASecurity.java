@@ -1,6 +1,6 @@
 package security.algorithm.noequals;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import security.utils.Base64Utils;
 
 import javax.crypto.Cipher;
 import java.security.*;
@@ -20,7 +20,7 @@ public class RSASecurity {
         //原文
         String data="天行健，君子以自强不息";
         //加密算法
-        String algorithm = "RSASecurity";
+        String algorithm = "RSA";
         //获取密钥
         Map<String, Object> keys = getKey(algorithm);
         String aPrivate = (String) keys.get("private");
@@ -38,7 +38,7 @@ public class RSASecurity {
         cipher.init(Cipher.ENCRYPT_MODE, (Key) keys.get("publicKey"));
         //对原文进行加密
         byte[] bytes = cipher.doFinal(data.getBytes());
-        String encode = Base64.encode(bytes);
+        String encode = Base64Utils.encode(bytes);
         System.out.println("密文：" + encode);
 
         //使用私钥解密《============================
@@ -48,7 +48,7 @@ public class RSASecurity {
         //使用解密功能
         cipher1.init(Cipher.DECRYPT_MODE, (Key) keys.get("privateKey"));
         //对密文进行解密
-        byte[] bytes1 = cipher1.doFinal(Base64.decode(encode.getBytes()));
+        byte[] bytes1 = cipher1.doFinal(Base64Utils.decodeData(encode));
         System.out.println("原文："+new String(bytes1));
     }
 
@@ -66,8 +66,8 @@ public class RSASecurity {
         PrivateKey aPrivate = keyPair.getPrivate();
         byte[] aPrivateEncoded = aPrivate.getEncoded(); //私钥字节数据
         //使用base64将密钥字节数据进行翻译
-        String publicCode = Base64.encode(aPublicEncoded);
-        String privateCode = Base64.encode(aPrivateEncoded);
+        String publicCode = Base64Utils.encode(aPublicEncoded);
+        String privateCode = Base64Utils.encode(aPrivateEncoded);
         HashMap<String, Object> mapKey = new HashMap<>();
         mapKey.put("public",publicCode);
         mapKey.put("publicKey",aPublic);

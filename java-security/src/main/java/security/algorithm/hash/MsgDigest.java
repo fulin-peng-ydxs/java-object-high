@@ -1,8 +1,6 @@
 package security.algorithm.hash;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 import security.utils.Base64Utils;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 

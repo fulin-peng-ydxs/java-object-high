@@ -24,7 +24,7 @@ public class SM4Security {
 
         String plaintext = "This is a test message.";
 
-        byte[] ivBytes = new byte[16]; // 16×Ö½Ú³¤¶ÈµÄ³õÊ¼ÏòÁ¿
+        byte[] ivBytes = new byte[16]; // 16å­—èŠ‚é•¿åº¦çš„åˆå§‹å‘é‡
         SecureRandom random = new SecureRandom();
         random.nextBytes(ivBytes);
 
@@ -36,32 +36,32 @@ public class SM4Security {
         System.out.println("Decrypted: " + decryptedText);
     }
 
-    /**¼ÓÃÜ
+    /**åŠ å¯†
      * 2023/8/13-23:51
      * @author pengfulin
     */
     public static byte[] encryptSM4(byte[] keyBytes, byte[] ivBytes,byte[] plaintext) throws Exception {
-        BlockCipher engine = new SM4Engine(); //SM4 Ëã·¨µÄ¿éÃÜÂëÒıÇæ
-        //BufferedBlockCipher ÊÇ Bouncy Castle ¿âÖĞµÄÒ»¸ö·â×°Àà£¬ÓÃÓÚÊµÏÖ¿éÃÜÂëËã·¨µÄ¼Ó½âÃÜ²Ù×÷£¬²¢Ö§³ÖÌî³ä·½Ê½¡£
-        // ÔÚÕâÀï£¬ÎÒÃÇ´´½¨ÁËÒ»¸öÊ¹ÓÃ CBC£¨Cipher Block Chaining£©Ä£Ê½µÄ BufferedBlockCipher ÊµÀı£¬²¢½« SM4Engine ×÷ÎªÆäµ×²ãµÄ¿éÃÜÂëÒıÇæ¡£
+        BlockCipher engine = new SM4Engine(); //SM4 ç®—æ³•çš„å—å¯†ç å¼•æ“
+        //BufferedBlockCipher æ˜¯ Bouncy Castle åº“ä¸­çš„ä¸€ä¸ªå°è£…ç±»ï¼Œç”¨äºå®ç°å—å¯†ç ç®—æ³•çš„åŠ è§£å¯†æ“ä½œï¼Œå¹¶æ”¯æŒå¡«å……æ–¹å¼ã€‚
+        // åœ¨è¿™é‡Œï¼Œæˆ‘ä»¬åˆ›å»ºäº†ä¸€ä¸ªä½¿ç”¨ CBCï¼ˆCipher Block Chainingï¼‰æ¨¡å¼çš„ BufferedBlockCipher å®ä¾‹ï¼Œå¹¶å°† SM4Engine ä½œä¸ºå…¶åº•å±‚çš„å—å¯†ç å¼•æ“ã€‚
         //CCB/PKCS7Padding
         BufferedBlockCipher cipher = new PaddedBufferedBlockCipher(new CBCBlockCipher(engine));
-        //KeyParameter ÊÇ Bouncy Castle ¿âÖĞÓÃÓÚ´«µİÃÜÔ¿²ÎÊıµÄÀà¡£ÕâÀï½¨ÁËÒ»¸ö KeyParameter ÊµÀı£¬½« keyBytes ×÷ÎªÃÜÔ¿²ÎÊı´«Èë
+        //KeyParameter æ˜¯ Bouncy Castle åº“ä¸­ç”¨äºä¼ é€’å¯†é’¥å‚æ•°çš„ç±»ã€‚è¿™é‡Œå»ºäº†ä¸€ä¸ª KeyParameter å®ä¾‹ï¼Œå°† keyBytes ä½œä¸ºå¯†é’¥å‚æ•°ä¼ å…¥
         KeyParameter keyParam = new KeyParameter(keyBytes);
         ParametersWithIV params = new ParametersWithIV(keyParam, ivBytes);
-        //´úÂë³õÊ¼»¯¼ÓÃÜÆ÷¡£init ·½·¨µÄµÚÒ»¸ö²ÎÊıÖ¸¶¨²Ù×÷Ä£Ê½£¬true ±íÊ¾¼ÓÃÜÄ£Ê½¡£µÚ¶ş¸ö²ÎÊıÊÇÃÜÔ¿²ÎÊı
+        //ä»£ç åˆå§‹åŒ–åŠ å¯†å™¨ã€‚init æ–¹æ³•çš„ç¬¬ä¸€ä¸ªå‚æ•°æŒ‡å®šæ“ä½œæ¨¡å¼ï¼Œtrue è¡¨ç¤ºåŠ å¯†æ¨¡å¼ã€‚ç¬¬äºŒä¸ªå‚æ•°æ˜¯å¯†é’¥å‚æ•°
         cipher.init(true, params);
-        //´´½¨Ò»¸ö×Ö½ÚÊı×é output£¬ÓÃÓÚ´æ´¢¼ÓÃÜºóµÄÊı¾İ¡£¸ù¾İ¼ÓÃÜÆ÷µÄÊä³ö´óĞ¡£¬ÕâÀï·ÖÅäÁË×ã¹»µÄ¿Õ¼ä¡£
+        //åˆ›å»ºä¸€ä¸ªå­—èŠ‚æ•°ç»„ outputï¼Œç”¨äºå­˜å‚¨åŠ å¯†åçš„æ•°æ®ã€‚æ ¹æ®åŠ å¯†å™¨çš„è¾“å‡ºå¤§å°ï¼Œè¿™é‡Œåˆ†é…äº†è¶³å¤Ÿçš„ç©ºé—´ã€‚
         byte[] output = new byte[cipher.getOutputSize(plaintext.length)];
-        //processBytes ·½·¨ÓÃÓÚ´¦ÀíÊäÈëÊı¾İµÄÒ»²¿·Ö¡£ÕâÀï½«ÊäÈëÃ÷ÎÄÊı¾İ plaintext µÄÈ«²¿ÄÚÈİ¶¼´¦Àí£¬²¢
-        // ½«¼ÓÃÜºóµÄÊı¾İ´æ´¢µ½ output Êı×éÖĞ¡£len ¼ÇÂ¼ÁË´¦ÀíµÄ×Ö½ÚÊı¡£
+        //processBytes æ–¹æ³•ç”¨äºå¤„ç†è¾“å…¥æ•°æ®çš„ä¸€éƒ¨åˆ†ã€‚è¿™é‡Œå°†è¾“å…¥æ˜æ–‡æ•°æ® plaintext çš„å…¨éƒ¨å†…å®¹éƒ½å¤„ç†ï¼Œå¹¶
+        // å°†åŠ å¯†åçš„æ•°æ®å­˜å‚¨åˆ° output æ•°ç»„ä¸­ã€‚len è®°å½•äº†å¤„ç†çš„å­—èŠ‚æ•°ã€‚
         int len = cipher.processBytes(plaintext, 0, plaintext.length, output, 0);
-        //doFinal ·½·¨»á´¦ÀíÊäÈëÊı¾İµÄÊ£Óà²¿·Ö£¬²¢½«¼ÓÃÜºóµÄÊı¾İ´æ´¢µ½ output Êı×éµÄÊ£ÓàÎ»ÖÃ¡£
+        //doFinal æ–¹æ³•ä¼šå¤„ç†è¾“å…¥æ•°æ®çš„å‰©ä½™éƒ¨åˆ†ï¼Œå¹¶å°†åŠ å¯†åçš„æ•°æ®å­˜å‚¨åˆ° output æ•°ç»„çš„å‰©ä½™ä½ç½®ã€‚
         cipher.doFinal(output, len);
         return output;
     }
 
-    /**½âÃÜ
+    /**è§£å¯†
      * 2023/8/13-23:51
      * @author pengfulin
     */
@@ -79,3 +79,4 @@ public class SM4Security {
     }
 
 }
+

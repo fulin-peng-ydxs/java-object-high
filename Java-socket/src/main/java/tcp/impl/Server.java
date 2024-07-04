@@ -1,7 +1,5 @@
 package tcp.impl;
 
-import com.sun.deploy.util.StringUtils;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;

@@ -147,19 +147,30 @@ public class HashSignatureUtils {
      * @author fulin-peng
      */
     public static boolean validateSimpleSignature(Map<String,String> signatureData,String token,SignatureHash signatureHash) throws Exception{
+        return validateSimpleSignature(signatureData,token,signatureHash,0);
+    }
+
+    /**
+     * 签名认证：通用方式
+     * 2024/4/2 0002 11:28
+     * @author fulin-peng
+     */
+    public static boolean validateSimpleSignature(Map<String,String> signatureData,String token,SignatureHash signatureHash,int validTime) throws Exception{
         String timestamp = signatureData.get("timestamp");
         String nonce = signatureData.get("nonce");
         String signature = signatureData.get("signature");
         if(timestamp==null|| nonce==null||signature==null)
             return false;
         String signatureSource = timestamp + token + nonce + timestamp;
+        boolean signResult=false;
         if(signatureHash==SignatureHash.SHA_256){
-            return signature.equals(toSHA256(signatureSource));
+            signResult= signature.equals(toSHA256(signatureSource));
         } else if (signatureHash==SignatureHash.SM3) {
-            return signature.equals(toSM3(signatureSource));
+            signResult= signature.equals(toSM3(signatureSource));
         } else if(signatureHash==SignatureHash.MD5) {
-            return signature.equals(toMd5(signatureSource));
+            signResult= signature.equals(toMd5(signatureSource));
         }
-        return false;
+        long timeDifference = (System.currentTimeMillis() / 1000L) - Long.parseLong(timestamp);
+        return validTime<=0?signResult:signResult && timeDifference>=0 && timeDifference <=validTime;
     }
 }

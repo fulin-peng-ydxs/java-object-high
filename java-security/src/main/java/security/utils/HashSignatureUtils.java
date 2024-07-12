@@ -164,11 +164,11 @@ public class HashSignatureUtils {
         String signatureSource = timestamp + token + nonce + timestamp;
         boolean signResult=false;
         if(signatureHash==SignatureHash.SHA_256){
-            signResult= signature.equals(toSHA256(signatureSource));
+            signResult= signature.equalsIgnoreCase(toSHA256(signatureSource));
         } else if (signatureHash==SignatureHash.SM3) {
-            signResult= signature.equals(toSM3(signatureSource));
+            signResult= signature.equalsIgnoreCase(toSM3(signatureSource));
         } else if(signatureHash==SignatureHash.MD5) {
-            signResult= signature.equals(toMd5(signatureSource));
+            signResult= signature.equalsIgnoreCase(toMd5(signatureSource));
         }
         long timeDifference = (System.currentTimeMillis() / 1000L) - Long.parseLong(timestamp);
         return validTime<=0?signResult:signResult && timeDifference>=0 && timeDifference <=validTime;

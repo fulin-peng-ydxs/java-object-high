@@ -17,18 +17,35 @@ public class CBCSecurity {
 
 
     public static void main(String[] args) throws Exception {
-        // DES加密算法,key的大小必须是8个字节
-        String key="12345678";
-        String transformation="DES/CBC/PKCS5Padding";  //加密算法
-        String algorithm="DES"; //密钥算法
         String data="硅谷"; //原文数据
-        String encryptDes = encryptDes(data, key, transformation, algorithm,"12367835");
+        // DES加密算法,key、init的大小必须是8个字节
+        String key="12345678";
+        String init="12367835";
+        des(data,key,init);
+        // AES加密算法,key、init的大小必须是16个字节
+        key="1234567891123456";
+        init="1234567891127756";
+        aes(data,key,init);
+    }
+
+    private static void aes(String data,String key,String init)throws Exception {
+        String transformation="AES/CBC/PKCS5Padding";  //加密算法
+        String algorithm="AES"; //密钥算法
+        String encryptDes = encryptDes(data, key, transformation, algorithm,init);
         System.out.println("加密数据："+encryptDes);
-        String decryptDes = decryptDes(encryptDes, key, transformation, algorithm,"12367835");
+        String decryptDes = decryptDes(encryptDes, key, transformation, algorithm,init);
         System.out.println("解密数据："+decryptDes);
     }
-    
-    
+
+    private static void des(String data,String key,String init)throws Exception {
+        String transformation="DES/CBC/PKCS5Padding";  //加密算法
+        String algorithm="DES"; //密钥算法
+        String encryptDes = encryptDes(data, key, transformation, algorithm,init);
+        System.out.println("加密数据："+encryptDes);
+        String decryptDes = decryptDes(encryptDes, key, transformation, algorithm,init);
+        System.out.println("解密数据："+decryptDes);
+    }
+
     /**
      * @Author PengFuLin
      * @Description  加密数据

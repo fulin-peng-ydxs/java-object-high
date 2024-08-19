@@ -22,7 +22,11 @@ public class HashSignatureUtils {
 
     /**生成签名：通用方式
      * 2023/8/10-23:45
+     * @param tokenData 签名token数据（根据集合顺序填充签名模版）
+     * @param tokenTemplate 签名token模板，填充tokenData生成签名token（“xxx-%s-xxx-%s-xx”）
+     * @param signatureHash 签名算法
      * @author pengfulin
+     * @return java.util.Map<java.lang.String,java.lang.String>  timestamp：时间戳（秒）,nonce：随机盐(增强签名唯一性),signature：签名（timestamp + token + nonce + timestamp）
     */
     public static Map<String,String> doGetCommonSignature(List<String> tokenData,String tokenTemplate,SignatureHash signatureHash) throws Exception{
         String token = String.format(tokenTemplate, tokenData);
@@ -32,7 +36,10 @@ public class HashSignatureUtils {
     /**
      * 生成签名：通用方式
      * 2024/4/2 0002 11:49
+     * @param token 签名token
+     * @param signatureHash 签名算法
      * @author fulin-peng
+     * @return java.util.Map<java.lang.String,java.lang.String>  timestamp：时间戳（秒）,nonce：随机盐(增强签名唯一性),signature：签名（timestamp + token + nonce + timestamp）
      */
     public static Map<String,String> doGetSimpleSignature(String token,SignatureHash signatureHash) throws Exception{
         long now = System.currentTimeMillis();
@@ -58,7 +65,7 @@ public class HashSignatureUtils {
         }else if (signatureHash==SignatureHash.MD5){
             signature=toMd5(signatureSource);
         }else {
-            return null;
+            throw new NullPointerException("签名算法不支持");
         }
         Map<String,String> map = new HashMap<>();
         map.put("timestamp",timestamp);
@@ -70,7 +77,9 @@ public class HashSignatureUtils {
 
     /**生成sha256算法hash
      * 2023/8/10-22:39
+     * @param str 待hash字符串
      * @author pengfulin
+     * @return java.lang.String hash值
     */
     public static String toSHA256(String str) throws Exception {
         return toCommonAlgorithm(str,"SHA-256");
@@ -79,7 +88,9 @@ public class HashSignatureUtils {
     /**
      * 生成md5算法hash
      * 2024/1/9 0009 11:15
+     * @param str 待hash字符串
      * @author fulin-peng
+     * @return java.lang.String hash值
      */
     public static String toMd5(String str) throws Exception {
         return toCommonAlgorithm(str,"MD5");
@@ -88,7 +99,10 @@ public class HashSignatureUtils {
     /**
      * 生成通用算法hash
      * 2024/1/9 0009 11:16
+     * @param str 待hash字符串
+     * @param algorithm hash算法：MD5、SHA-256
      * @author fulin-peng
+     * @return java.lang.String hash值
      */
     public static String toCommonAlgorithm(String str,String algorithm) throws Exception {
         MessageDigest messageDigest;
@@ -142,9 +156,13 @@ public class HashSignatureUtils {
 
 
     /**
-     * 签名认证：通用方式
+     * 签名认证：通用方式：默认签名有效时间（不限制）
      * 2024/4/2 0002 11:28
+     * @param signatureData 待认证签名数据：timestamp：时间戳（秒）,nonce：随机盐(增强签名唯一性),signature：签名（timestamp + token + nonce + timestamp）
+     * @param token 签名token 用于与待认证待签名比对：（signatureData.timestamp + token +signatureData. nonce + signatureData.timestamp）==  signatureData.signature
+     * @param signatureHash 签名算法：signatureData.signature使用的算法
      * @author fulin-peng
+     * @return boolean 签名认证结果
      */
     public static boolean validateSimpleSignature(Map<String,String> signatureData,String token,SignatureHash signatureHash) throws Exception{
         return validateSimpleSignature(signatureData,token,signatureHash,0);
@@ -153,7 +171,12 @@ public class HashSignatureUtils {
     /**
      * 签名认证：通用方式
      * 2024/4/2 0002 11:28
+     * @param signatureData 待认证签名数据：timestamp：时间戳（秒）,nonce：随机盐(增强签名唯一性),signature：签名（timestamp + token + nonce + timestamp）
+     * @param token 签名token 用于与待认证待签名比对：（signatureData.timestamp + token +signatureData. nonce + signatureData.timestamp）==  signatureData.signature
+     * @param signatureHash 签名算法：signatureData.signature使用的算法
+     * @param validTime 签名有效时间（秒）：签名认证有效时间范围（0：不限制）
      * @author fulin-peng
+     * @return boolean 签名认证结果
      */
     public static boolean validateSimpleSignature(Map<String,String> signatureData,String token,SignatureHash signatureHash,int validTime) throws Exception{
         String timestamp = signatureData.get("timestamp");

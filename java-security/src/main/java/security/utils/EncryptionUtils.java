@@ -5,7 +5,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * ¼ÓÃÜ¹¤¾ßÀà
+ * åŠ å¯†å·¥å…·ç±»
  *
  * @author fulin-peng
  * 2024-08-19  17:33
@@ -13,47 +13,47 @@ import javax.crypto.spec.SecretKeySpec;
 public class EncryptionUtils {
 
      /**
-      * ¶Ô³Æ¼ÓÃÜ
-      * 2024/8/20 ÉÏÎç9:27
+      * å¯¹ç§°åŠ å¯†
+      * 2024/8/20 ä¸Šåˆ9:27
       * @author fulin-peng
-      * @param plainText ´ı¼ÓÃÜÎÄ±¾
-      * @param encryptKey ¼ÓÃÜkey desËã·¨ÏÂ³¤¶ÈÎª8¸ö×Ö½Ú£¬aesËã·¨ÏÂ³¤¶ÈÎª16¸ö×Ö½Ú
-      * @param transformation ¼ÓÃÜËã·¨
-      * @param cbcInit ¼ÓÃÜÏòÁ¿ desËã·¨ÏÂ³¤¶ÈÎª8¸ö×Ö½Ú£¬aesËã·¨ÏÂ³¤¶ÈÎª16¸ö×Ö½Ú
+      * @param plainText å¾…åŠ å¯†æ–‡æœ¬
+      * @param encryptKey åŠ å¯†key desç®—æ³•ä¸‹é•¿åº¦ä¸º8ä¸ªå­—èŠ‚ï¼Œaesç®—æ³•ä¸‹é•¿åº¦ä¸º16ä¸ªå­—èŠ‚
+      * @param transformation åŠ å¯†ç®—æ³•
+      * @param cbcInit åŠ å¯†å‘é‡ desç®—æ³•ä¸‹é•¿åº¦ä¸º8ä¸ªå­—èŠ‚ï¼Œaesç®—æ³•ä¸‹é•¿åº¦ä¸º16ä¸ªå­—èŠ‚
       */
      public static String symmetryEncrypt(final String plainText,String encryptKey,String transformation,String cbcInit){
          try {
              return Base64Utils.encode(symmetryAlgorithm(plainText.getBytes(),encryptKey,transformation,cbcInit,Cipher.ENCRYPT_MODE));
          } catch (Exception e) {
-             throw new RuntimeException("¶Ô³Æ¼ÓÃÜÒì³£",e);
+             throw new RuntimeException("å¯¹ç§°åŠ å¯†å¼‚å¸¸",e);
          }
      }
      
      /**
-      * ¶Ô³Æ½âÃÜ
-      * 2024/8/20 ÉÏÎç9:54 
+      * å¯¹ç§°è§£å¯†
+      * 2024/8/20 ä¸Šåˆ9:54 
       * @author fulin-peng
-      * @param encryptedText ´ı½âÃÜÃÜÎÄ base64´®
-      * @param decryptKey ½âÃÜkey desËã·¨ÏÂ³¤¶ÈÎª8¸ö×Ö½Ú£¬aesËã·¨ÏÂ³¤¶ÈÎª16¸ö×Ö½Ú
-      * @param transformation ½âÃÜËã·¨
-      * @param cbcInit ½âÃÜÏòÁ¿ desËã·¨ÏÂ³¤¶ÈÎª8¸ö×Ö½Ú£¬aesËã·¨ÏÂ³¤¶ÈÎª16¸ö×Ö½Ú
+      * @param encryptedText å¾…è§£å¯†å¯†æ–‡ base64ä¸²
+      * @param decryptKey è§£å¯†key desç®—æ³•ä¸‹é•¿åº¦ä¸º8ä¸ªå­—èŠ‚ï¼Œaesç®—æ³•ä¸‹é•¿åº¦ä¸º16ä¸ªå­—èŠ‚
+      * @param transformation è§£å¯†ç®—æ³•
+      * @param cbcInit è§£å¯†å‘é‡ desç®—æ³•ä¸‹é•¿åº¦ä¸º8ä¸ªå­—èŠ‚ï¼Œaesç®—æ³•ä¸‹é•¿åº¦ä¸º16ä¸ªå­—èŠ‚
       */
      public static String symmetryDecrypt(final String encryptedText,String decryptKey,String transformation,String cbcInit){
          try {
              return new String(symmetryAlgorithm(Base64Utils.decodeData(encryptedText),decryptKey,transformation,cbcInit,Cipher.DECRYPT_MODE));
          } catch (Exception e) {
-             throw new RuntimeException("¶Ô³Æ½âÃÜÒì³£",e);
+             throw new RuntimeException("å¯¹ç§°è§£å¯†å¼‚å¸¸",e);
          }
      }
      
      /**
-      * ¶Ô³ÆËã·¨
-      * 2024/8/20 ÉÏÎç9:58
-      * @param data ´ı¼Ó½âÃÜ×Ö½ÚÊı×é
-      * @param key ´ı¼Ó½âÃÜkey desËã·¨ÏÂ³¤¶ÈÎª8¸ö×Ö½Ú£¬aesËã·¨ÏÂ³¤¶ÈÎª16¸ö×Ö½Ú
-      * @param transformation ¼Ó½âÃÜËã·¨
-      * @param cbcInit ¼Ó½âÃÜÏòÁ¿ desËã·¨ÏÂ³¤¶ÈÎª8¸ö×Ö½Ú£¬aesËã·¨ÏÂ³¤¶ÈÎª16¸ö×Ö½Ú
-      * @param type ¼ÓÃÜ»ò½âÃÜ 1Îª¼ÓÃÜ ¡¢2Îª½âÃÜ
+      * å¯¹ç§°ç®—æ³•
+      * 2024/8/20 ä¸Šåˆ9:58
+      * @param data å¾…åŠ è§£å¯†å­—èŠ‚æ•°ç»„
+      * @param key å¾…åŠ è§£å¯†key desç®—æ³•ä¸‹é•¿åº¦ä¸º8ä¸ªå­—èŠ‚ï¼Œaesç®—æ³•ä¸‹é•¿åº¦ä¸º16ä¸ªå­—èŠ‚
+      * @param transformation åŠ è§£å¯†ç®—æ³•
+      * @param cbcInit åŠ è§£å¯†å‘é‡ desç®—æ³•ä¸‹é•¿åº¦ä¸º8ä¸ªå­—èŠ‚ï¼Œaesç®—æ³•ä¸‹é•¿åº¦ä¸º16ä¸ªå­—èŠ‚
+      * @param type åŠ å¯†æˆ–è§£å¯† 1ä¸ºåŠ å¯† ã€2ä¸ºè§£å¯†
       * @author fulin-peng
       */
      public static byte[] symmetryAlgorithm(final byte[] data,String key,String transformation,String cbcInit,int type) throws Exception{
@@ -66,7 +66,7 @@ public class EncryptionUtils {
          Cipher cipher = Cipher.getInstance(transformation);
          SecretKey secretKey = new SecretKeySpec(key.getBytes(), algorithm);
          if(cbcInit!=null&&transformation.contains("CBC")){
-             //CBCÄ£Ê½£¬ĞèÒª¼ÓÈë³õÊ¼ÏòÁ¿
+             //CBCæ¨¡å¼ï¼Œéœ€è¦åŠ å…¥åˆå§‹å‘é‡
              IvParameterSpec ivParameterSpec = new IvParameterSpec(cbcInit.getBytes());
              cipher.init(type,secretKey,ivParameterSpec);
          }else cipher.init(type,secretKey);

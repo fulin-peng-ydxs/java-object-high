@@ -12,19 +12,19 @@ public class EncryptionUtilsTest {
 
     @Test
     public void testEncrypt() {
-        String data="¹è¹È"; //Ô­ÎÄÊı¾İ
-        String transformation="DES/CBC/PKCS5Padding";  //¼ÓÃÜËã·¨
-        // DES¼ÓÃÜËã·¨,key¡¢initµÄ´óĞ¡±ØĞëÊÇ8¸ö×Ö½Ú
+        String data="ç¡…è°·"; //åŸæ–‡æ•°æ®
+        String transformation="DES/CBC/PKCS5Padding";  //åŠ å¯†ç®—æ³•
+        // DESåŠ å¯†ç®—æ³•,keyã€initçš„å¤§å°å¿…é¡»æ˜¯8ä¸ªå­—èŠ‚
         String key="12345678";
         String init="12367835";
         String encrypt = EncryptionUtils.symmetryEncrypt(data, key, transformation, init);
         String decrypt = EncryptionUtils.symmetryDecrypt(encrypt, key, transformation, init);
         System.out.println(encrypt+"----"+decrypt);
         System.out.println("-===================================================================================-");
-        // AES¼ÓÃÜËã·¨,key¡¢initµÄ´óĞ¡±ØĞëÊÇ16¸ö×Ö½Ú
+        // AESåŠ å¯†ç®—æ³•,keyã€initçš„å¤§å°å¿…é¡»æ˜¯16ä¸ªå­—èŠ‚
         key="1234567891123456";
         init="1234567891127756";
-        transformation="AES/CBC/PKCS5Padding";  //¼ÓÃÜËã·¨
+        transformation="AES/CBC/PKCS5Padding";  //åŠ å¯†ç®—æ³•
         encrypt = EncryptionUtils.symmetryEncrypt(data, key, transformation, init);
         decrypt = EncryptionUtils.symmetryDecrypt(encrypt, key, transformation, init);
         System.out.println(encrypt+"----"+decrypt);

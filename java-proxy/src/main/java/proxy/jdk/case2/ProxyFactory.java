@@ -28,7 +28,6 @@ public class ProxyFactory {
             //2. Class<?>[] interfaces: 目标对象实现的接口类型，使用泛型方法确认类型
             //3. InvocationHandler h : 事情处理，执行目标对象的方法时，会触发事情处理器方法, 会把当前执行的目标对象方法作为参数传入
 		 */
-		Proxy.getProxyClass()
 		return Proxy.newProxyInstance(target.getClass().getClassLoader(),
 				target.getClass().getInterfaces(), 
 				new InvocationHandler() {

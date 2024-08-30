@@ -1,4 +1,4 @@
-package statics;
+package proxy.statics;
 
 
 //接口

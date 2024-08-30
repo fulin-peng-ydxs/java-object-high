@@ -1,4 +1,4 @@
-package jdk.demo2;
+package proxy.jdk.case2;
 
 //接口
 public interface ITeacherDao {

@@ -1,4 +1,4 @@
-package cglib;
+package proxy.cglib;
 
 import java.lang.reflect.Method;
 

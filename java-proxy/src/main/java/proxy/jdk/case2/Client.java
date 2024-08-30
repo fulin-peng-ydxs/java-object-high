@@ -1,4 +1,4 @@
-package jdk.demo2;
+package proxy.jdk.case2;
 
 public class Client {
 

@@ -1,4 +1,4 @@
-package jdk.demo1;
+package proxy.jdk.case1;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

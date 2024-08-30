@@ -1,12 +1,12 @@
 package statics;
 
-//´úÀí¶ÔÏó,¾²Ì¬´úÀí
+//ä»£ç†å¯¹è±¡,é™æ€ä»£ç†
 public class TeacherDaoProxy implements ITeacherDao{
 	
-	private ITeacherDao target; // Ä¿±ê¶ÔÏó£¬Í¨¹ı½Ó¿ÚÀ´¾ÛºÏ
+	private ITeacherDao target; // ç›®æ ‡å¯¹è±¡ï¼Œé€šè¿‡æ¥å£æ¥èšåˆ
 	
 	
-	//¹¹ÔìÆ÷
+	//æ„é€ å™¨
 	public TeacherDaoProxy(ITeacherDao target) {
 		this.target = target;
 	}
@@ -16,9 +16,9 @@ public class TeacherDaoProxy implements ITeacherDao{
 	@Override
 	public void teach() {
 		// TODO Auto-generated method stub
-		System.out.println("¿ªÊ¼´úÀí  Íê³ÉÄ³Ğ©²Ù×÷¡£¡£¡£¡£¡£ ");//·½·¨
+		System.out.println("å¼€å§‹ä»£ç†  å®ŒæˆæŸäº›æ“ä½œã€‚ã€‚ã€‚ã€‚ã€‚ ");//æ–¹æ³•
 		target.teach();
-		System.out.println("Ìá½»¡£¡£¡£¡£¡£");//·½·¨
+		System.out.println("æäº¤ã€‚ã€‚ã€‚ã€‚ã€‚");//æ–¹æ³•
 	}
 
 }

@@ -6,27 +6,27 @@ import java.lang.reflect.Proxy;
 
 public class ProxyFactory {
 
-	//Î¬»¤Ò»¸öÄ¿±ê¶ÔÏó , Object
+	//ç»´æŠ¤ä¸€ä¸ªç›®æ ‡å¯¹è±¡ , Object
 	private Object target;
 
-	//¹¹ÔìÆ÷ £¬ ¶Ôtarget ½øĞĞ³õÊ¼»¯
+	//æ„é€ å™¨ ï¼Œ å¯¹target è¿›è¡Œåˆå§‹åŒ–
 	public ProxyFactory(Object target) {
 		
 		this.target = target;
 	} 
 	
-	//¸øÄ¿±ê¶ÔÏó Éú³ÉÒ»¸ö´úÀí¶ÔÏó
+	//ç»™ç›®æ ‡å¯¹è±¡ ç”Ÿæˆä¸€ä¸ªä»£ç†å¯¹è±¡
 	public Object getProxyInstance() {
 		
-		//ËµÃ÷
+		//è¯´æ˜
 		/*
 		 *  public static Object newProxyInstance(ClassLoader loader,
                                           Class<?>[] interfaces,
                                           InvocationHandler h)
                                           
-            //1. ClassLoader loader £º Ö¸¶¨µ±Ç°Ä¿±ê¶ÔÏóÊ¹ÓÃµÄÀà¼ÓÔØÆ÷, »ñÈ¡¼ÓÔØÆ÷µÄ·½·¨¹Ì¶¨
-            //2. Class<?>[] interfaces: Ä¿±ê¶ÔÏóÊµÏÖµÄ½Ó¿ÚÀàĞÍ£¬Ê¹ÓÃ·ºĞÍ·½·¨È·ÈÏÀàĞÍ
-            //3. InvocationHandler h : ÊÂÇé´¦Àí£¬Ö´ĞĞÄ¿±ê¶ÔÏóµÄ·½·¨Ê±£¬»á´¥·¢ÊÂÇé´¦ÀíÆ÷·½·¨, »á°Ñµ±Ç°Ö´ĞĞµÄÄ¿±ê¶ÔÏó·½·¨×÷Îª²ÎÊı´«Èë
+            //1. ClassLoader loader ï¼š æŒ‡å®šå½“å‰ç›®æ ‡å¯¹è±¡ä½¿ç”¨çš„ç±»åŠ è½½å™¨, è·å–åŠ è½½å™¨çš„æ–¹æ³•å›ºå®š
+            //2. Class<?>[] interfaces: ç›®æ ‡å¯¹è±¡å®ç°çš„æ¥å£ç±»å‹ï¼Œä½¿ç”¨æ³›å‹æ–¹æ³•ç¡®è®¤ç±»å‹
+            //3. InvocationHandler h : äº‹æƒ…å¤„ç†ï¼Œæ‰§è¡Œç›®æ ‡å¯¹è±¡çš„æ–¹æ³•æ—¶ï¼Œä¼šè§¦å‘äº‹æƒ…å¤„ç†å™¨æ–¹æ³•, ä¼šæŠŠå½“å‰æ‰§è¡Œçš„ç›®æ ‡å¯¹è±¡æ–¹æ³•ä½œä¸ºå‚æ•°ä¼ å…¥
 		 */
 		return Proxy.newProxyInstance(target.getClass().getClassLoader(), 
 				target.getClass().getInterfaces(), 
@@ -35,10 +35,10 @@ public class ProxyFactory {
 					@Override
 					public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 						// TODO Auto-generated method stub
-						System.out.println("JDK´úÀí¿ªÊ¼~~");
-						//·´Éä»úÖÆµ÷ÓÃÄ¿±ê¶ÔÏóµÄ·½·¨
+						System.out.println("JDKä»£ç†å¼€å§‹~~");
+						//åå°„æœºåˆ¶è°ƒç”¨ç›®æ ‡å¯¹è±¡çš„æ–¹æ³•
 						Object returnVal = method.invoke(target, args);
-						System.out.println("JDK´úÀíÌá½»");
+						System.out.println("JDKä»£ç†æäº¤");
 						return returnVal;
 					}
 				}); 

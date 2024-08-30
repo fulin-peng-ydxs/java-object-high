@@ -4,12 +4,12 @@ public class Client {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		//´´½¨Ä¿±ê¶ÔÏó
+		//åˆ›å»ºç›®æ ‡å¯¹è±¡
 		TeacherDao target = new TeacherDao();
-		//»ñÈ¡µ½´úÀí¶ÔÏó£¬²¢ÇÒ½«Ä¿±ê¶ÔÏó´«µİ¸ø´úÀí¶ÔÏó
+		//è·å–åˆ°ä»£ç†å¯¹è±¡ï¼Œå¹¶ä¸”å°†ç›®æ ‡å¯¹è±¡ä¼ é€’ç»™ä»£ç†å¯¹è±¡
 		TeacherDao proxyInstance = (TeacherDao)new ProxyFactory(target).getProxyInstance();
 
-		//Ö´ĞĞ´úÀí¶ÔÏóµÄ·½·¨£¬´¥·¢intecept ·½·¨£¬´Ó¶øÊµÏÖ ¶ÔÄ¿±ê¶ÔÏóµÄµ÷ÓÃ
+		//æ‰§è¡Œä»£ç†å¯¹è±¡çš„æ–¹æ³•ï¼Œè§¦å‘intecept æ–¹æ³•ï¼Œä»è€Œå®ç° å¯¹ç›®æ ‡å¯¹è±¡çš„è°ƒç”¨
 		String res = proxyInstance.teach();
 		System.out.println("res=" + res);
 	}

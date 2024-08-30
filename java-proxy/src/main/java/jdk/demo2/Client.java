@@ -4,16 +4,16 @@ public class Client {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		//创建目标对象
+		//鍒涘缓鐩爣瀵硅薄
 		ITeacherDao target = new TeacherDao();
 		
-		//给目标对象，创建代理对象, 可以转成 ITeacherDao
+		//缁欑洰鏍囧璞★紝鍒涘缓浠ｇ悊瀵硅薄, 鍙互杞垚 ITeacherDao
 		ITeacherDao proxyInstance = (ITeacherDao)new ProxyFactory(target).getProxyInstance();
 	
-		// proxyInstance=class com.sun.proxy.$Proxy0 内存中动态生成了代理对象
+		// proxyInstance=class com.sun.proxy.$Proxy0 鍐呭瓨涓姩鎬佺敓鎴愪簡浠ｇ悊瀵硅薄
 		System.out.println("proxyInstance=" + proxyInstance.getClass());
 		
-		//通过代理对象，调用目标对象的方法
+		//閫氳繃浠ｇ悊瀵硅薄锛岃皟鐢ㄧ洰鏍囧璞＄殑鏂规硶
 		//proxyInstance.teach();
 		
 		proxyInstance.sayHello(" tom ");

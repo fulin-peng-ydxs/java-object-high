@@ -8,35 +8,35 @@ import net.sf.cglib.proxy.MethodProxy;
 
 public class ProxyFactory implements MethodInterceptor {
 
-	//Î¬»¤Ò»¸öÄ¿±ê¶ÔÏó
+	//ç»´æŠ¤ä¸€ä¸ªç›®æ ‡å¯¹è±¡
 	private Object target;
 	
-	//¹¹ÔìÆ÷£¬´«ÈëÒ»¸ö±»´úÀíµÄ¶ÔÏó
+	//æ„é€ å™¨ï¼Œä¼ å…¥ä¸€ä¸ªè¢«ä»£ç†çš„å¯¹è±¡
 	public ProxyFactory(Object target) {
 		this.target = target;
 	}
 
-	//·µ»ØÒ»¸ö´úÀí¶ÔÏó:  ÊÇ target ¶ÔÏóµÄ´úÀí¶ÔÏó
+	//è¿”å›ä¸€ä¸ªä»£ç†å¯¹è±¡:  æ˜¯ target å¯¹è±¡çš„ä»£ç†å¯¹è±¡
 	public Object getProxyInstance() {
-		//1. ´´½¨Ò»¸ö¹¤¾ßÀà
+		//1. åˆ›å»ºä¸€ä¸ªå·¥å…·ç±»
 		Enhancer enhancer = new Enhancer();
-		//2. ÉèÖÃ¸¸Àà
+		//2. è®¾ç½®çˆ¶ç±»
 		enhancer.setSuperclass(target.getClass());
-		//3. ÉèÖÃ»Øµ÷º¯Êı
+		//3. è®¾ç½®å›è°ƒå‡½æ•°
 		enhancer.setCallback(this);
-		//4. ´´½¨×ÓÀà¶ÔÏó£¬¼´´úÀí¶ÔÏó
+		//4. åˆ›å»ºå­ç±»å¯¹è±¡ï¼Œå³ä»£ç†å¯¹è±¡
 		return enhancer.create();
 		
 	}
 	
 
-	//ÖØĞ´  intercept ·½·¨£¬»áµ÷ÓÃÄ¿±ê¶ÔÏóµÄ·½·¨
+	//é‡å†™  intercept æ–¹æ³•ï¼Œä¼šè°ƒç”¨ç›®æ ‡å¯¹è±¡çš„æ–¹æ³•
 	@Override
 	public Object intercept(Object arg0, Method method, Object[] args, MethodProxy arg3) throws Throwable {
 		// TODO Auto-generated method stub
-		System.out.println("Cglib´úÀíÄ£Ê½ ~~ ¿ªÊ¼");
+		System.out.println("Cglibä»£ç†æ¨¡å¼ ~~ å¼€å§‹");
 		Object returnVal = method.invoke(target, args);
-		System.out.println("Cglib´úÀíÄ£Ê½ ~~ Ìá½»");
+		System.out.println("Cglibä»£ç†æ¨¡å¼ ~~ æäº¤");
 		return returnVal;
 	}
 

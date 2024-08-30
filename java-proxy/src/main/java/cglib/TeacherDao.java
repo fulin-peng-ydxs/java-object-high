@@ -3,7 +3,7 @@ package cglib;
 public class TeacherDao {
 
 	public String teach() {
-		System.out.println(" ÀÏÊ¦ÊÚ¿ÎÖĞ  £¬ ÎÒÊÇcglib´úÀí£¬²»ĞèÒªÊµÏÖ½Ó¿Ú ");
+		System.out.println(" è€å¸ˆæˆè¯¾ä¸­  ï¼Œ æˆ‘æ˜¯cglibä»£ç†ï¼Œä¸éœ€è¦å®ç°æ¥å£ ");
 		return "hello";
 	}
 }

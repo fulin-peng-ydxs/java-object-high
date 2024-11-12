@@ -16,7 +16,7 @@ public class AesSecurity {
 
 
     public static void main(String[] args) throws Exception {
-        // AES加密算法,key的大小必须16个字节
+        // AES加密算法,key的大小必须16个字节\24个字节\32个字节,分别对应AES-128、AES-192、AES-256 加密算法
         String key="1234567891123456";
         String transformation="AES";  //加密算法
         String algorithm="AES"; //密钥算法

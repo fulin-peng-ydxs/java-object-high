@@ -3,6 +3,12 @@ package security.utils;
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.*;
+import java.security.interfaces.RSAPublicKey;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 加密工具类
@@ -73,4 +79,60 @@ public class EncryptionUtils {
          return cipher.doFinal(data);
      }
 
+
+     /**
+      * 非对称加密
+      * @param plainText 待加密明文
+      * @param publicKey 公钥
+      * @param transformation 加密算法
+      * 2024/11/18 下午4:06
+      * @author fulin-peng
+      */
+     public static String asymmetricEncrypt(final String plainText,String publicKey,String transformation) throws Exception{
+         Cipher cipher = Cipher.getInstance(transformation);
+         cipher.init(Cipher.ENCRYPT_MODE, KeyFactory.getInstance(transformation)
+                 .generatePublic(new X509EncodedKeySpec(Base64Utils.decodeData(publicKey))));
+         byte[] bytes = cipher.doFinal(plainText.getBytes());
+         return Base64Utils.encode(bytes);
+     }
+
+     /**
+      * 非对称解密
+      * 2024/11/18 下午4:37
+      * @author fulin-peng
+      */
+     public static String asymmetricDecrypt(final String encryptedText,String privateKey,String transformation) throws Exception{
+         Cipher cipher = Cipher.getInstance(transformation);
+         cipher.init(Cipher.DECRYPT_MODE, KeyFactory.getInstance(transformation)
+                 .generatePrivate(new PKCS8EncodedKeySpec(Base64Utils.decodeData(privateKey))));
+         byte[] bytes = cipher.doFinal(Base64Utils.decodeData(encryptedText));
+         return new String(bytes);
+     }
+
+     /**
+      * 生成秘钥对
+      * 2024/11/18 下午4:28
+      * @author fulin-peng
+      */
+     public  static Map<String,Object> getKey(String algorithm) throws NoSuchAlgorithmException {
+         //创建密钥对生成器
+         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(algorithm);
+         //生成公钥钥和私钥对
+         KeyPair keyPair = keyPairGenerator.generateKeyPair();
+         //获取公钥
+         PublicKey aPublic = keyPair.getPublic();
+         byte[] aPublicEncoded = aPublic.getEncoded(); //公钥字节数据
+         //获取私钥
+         PrivateKey aPrivate = keyPair.getPrivate();
+         byte[] aPrivateEncoded = aPrivate.getEncoded(); //私钥字节数据
+         //使用base64将密钥字节数据进行翻译
+         String publicCode = Base64Utils.encode(aPublicEncoded);
+         String privateCode = Base64Utils.encode(aPrivateEncoded);
+         HashMap<String, Object> mapKey = new HashMap<>();
+         mapKey.put("publicCode",publicCode);
+         mapKey.put("publicKey",aPublic);
+         mapKey.put("privateCode",privateCode);
+         mapKey.put("privateKey",aPrivate);
+         return mapKey;
+     }
 }

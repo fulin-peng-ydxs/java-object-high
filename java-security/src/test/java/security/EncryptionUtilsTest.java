@@ -22,9 +22,11 @@ public class EncryptionUtilsTest {
         System.out.println(encrypt+"----"+decrypt);
         System.out.println("-===================================================================================-");
         // AES加密算法,key、init的大小必须是16个字节
-        key="1234567891123456";
-        init="1234567891127756";
-        transformation="AES/CBC/PKCS5Padding";  //加密算法
+        key="h2A5m9Tz6GkXr7uWzqS8D3f1N2JdFv8k";
+//        init="1234567891127756";
+        init=null;
+//        transformation="AES/CBC/PKCS5Padding";  //加密算法
+        transformation="AES/ECB/PKCS5Padding";  //加密算法
         encrypt = EncryptionUtils.symmetryEncrypt(data, key, transformation, init);
         decrypt = EncryptionUtils.symmetryDecrypt(encrypt, key, transformation, init);
         System.out.println(encrypt+"----"+decrypt);

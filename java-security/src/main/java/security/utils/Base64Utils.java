@@ -33,4 +33,17 @@ public class Base64Utils {
         return Base64.getDecoder().decode(encodedString);
     }
 
+    /**
+     * 判断是否是base64编码
+     * 2025/3/28 10:38
+     * @author pengshuaifeng
+     * @param str
+     */
+    public static byte[] isBase64(String str) {
+        try {
+            return  decodeData(str);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
 }

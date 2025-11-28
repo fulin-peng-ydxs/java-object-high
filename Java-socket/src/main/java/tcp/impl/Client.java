@@ -17,12 +17,13 @@ public class Client {
 
 
     //请求发送
-    public static void write(OutputStream netOut, Socket socket ) throws IOException {
+    public static boolean write(OutputStream netOut, Socket socket ) throws IOException {
         Scanner scanner = new Scanner(System.in);
         String info = scanner.next();
         netOut.write(info.getBytes());
         //关闭请求流，发送请求
         socket.shutdownOutput();
+        return info.equals("close");
     }
     //响应读取
     public  static Object reade(InputStream netInput,Socket socket ) throws IOException {
@@ -48,14 +49,18 @@ public class Client {
             //发送请求
             System.out.println("**********************************");
             System.out.println("请输入请求内容:");
-            write(netOut,socket);
+            boolean write = write(netOut, socket);
             //获取响应
             String result = (String) reade(netInput, socket);
             System.out.println("***************************************");
             System.out.println("收到请求，返回信息：");
             System.out.println(result);
-            //关闭socket连接对象,结束请求
-            socket.close();
+            if(write){
+//            //关闭socket连接对象,结束请求
+                socket.close();
+                System.out.println("客户端已关闭....");
+                break;
+            }
         }
     }
 

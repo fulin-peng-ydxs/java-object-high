@@ -35,7 +35,7 @@ public class JwtQuick {
         Date now = new Date(nowMillis);
         long expMillis = nowMillis + 3600000; // 设置过期时间为1小时
         Date exp = new Date(expMillis);
-        // 对于 HMAC ,使用你的安全密钥。使用正确的长度对于安全性至关重要。
+       // 对于 HMAC：密钥哈希校验 ,使用你的安全密钥。使用正确的长度对于安全性至关重要。
         SecretKey secretKey = Keys.hmacShaKeyFor(secretString.getBytes());
         return Jwts.builder()
                 .setSubject("user123") // 设置主题或者说用户ID
